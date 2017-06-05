@@ -1,18 +1,24 @@
 name := "Makespace"
-scalaVersion in ThisBuild := "2.11.8"
+scalaVersion in ThisBuild := "2.11.11"
 
-lazy val root = project.in(file(".")).
-aggregate(buildJS, buildJVM).
-  settings(
-    publish := {},
-    publishLocal := {}
-  )
 
-lazy val buildCross = crossProject.in(file(".")).
-  jvmSettings().
-  jsSettings()
+lazy val shared = crossProject.crossType(CrossType.Pure).in(file("shared"))
+  .jvmSettings()
+  .jsSettings()
+
+lazy val sharedJVM = shared.jvm
+lazy val sharedJS = shared.js
+
+lazy val client: Project = (project in file("client"))
+  .settings()
+  .enablePlugins(ScalaJSPlugin)
+  .dependsOn(sharedJS)
+
+lazy val server = (project in file("server"))
+  .settings()
+  .enablePlugins(PlayScala)
+  .disablePlugins(PlayLayoutPlugin)
+  .dependsOn(sharedJVM)
+
 
 //scalaJSUseMainModuleInitializer := true
-
-lazy val buildJVM = buildCross.jvm
-lazy val buildJS = buildCross.js
