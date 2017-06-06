@@ -1,4 +1,5 @@
 import sbt._
+import org.scalajs.sbtplugin.ScalaJSPlugin.autoImport._
 
 object Settings {
 
@@ -15,6 +16,10 @@ object Settings {
 
   val jvmDependencies = Def.setting(Seq(
     "com.vmunier" %% "scalajs-scripts" % versions.scalajsScripts
+  ))
+
+  val scalajsDependencies = Def.setting(Seq(
+    "com.github.japgolly.scalajs-react" %%% "core" % "1.0.0"
   ))
 
 }

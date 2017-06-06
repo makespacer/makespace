@@ -15,11 +15,20 @@ lazy val sharedJS = shared.js
 lazy val client: Project = (project in file("client"))
   .settings(
     name := "client",
+    libraryDependencies ++= Settings.scalajsDependencies.value,
     jsDependencies += RuntimeDOM % "test",
+    npmDependencies in Compile ++= Seq(
+      "react" -> "15.5.4",
+      "react-dom" -> "15.5.4"
+    ),
+    npmDevDependencies in Compile ++= Seq(
+      "expose-loader" -> "0.7.1"
+    ),
     skip in packageJSDependencies := false,
-    scalaJSUseMainModuleInitializer := true
+    //scalaJSUseMainModuleInitializer := true,
+    enableReloadWorkflow := true
   )
-  .enablePlugins(ScalaJSPlugin, ScalaJSWeb)
+  .enablePlugins(ScalaJSPlugin, ScalaJSBundlerPlugin)
   .dependsOn(sharedJS)
 
 lazy val clients = Seq(client)
@@ -33,7 +42,7 @@ lazy val server = (project in file("server"))
     pipelineStages in Assets := Seq(scalaJSPipeline),
     pipelineStages := Seq(rjs, digest, gzip)
   )
-  .enablePlugins(PlayScala, SbtWeb)
+  .enablePlugins(PlayScala, SbtWeb, WebScalaJSBundlerPlugin)
   .disablePlugins(PlayLayoutPlugin)
   .aggregate(clients.map(projectToRef): _*)
   .dependsOn(sharedJVM)
