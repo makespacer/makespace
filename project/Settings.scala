@@ -19,7 +19,8 @@ object Settings {
   ))
 
   val scalajsDependencies = Def.setting(Seq(
-    "com.github.japgolly.scalajs-react" %%% "core" % "1.0.0"
+    "com.github.japgolly.scalajs-react" %%% "core" % "1.0.0",
+    "com.github.japgolly.scalajs-react" %%% "extra" % "1.0.0"
   ))
 
 }
