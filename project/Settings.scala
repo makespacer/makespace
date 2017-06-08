@@ -12,6 +12,8 @@ object Settings {
 
   object versions {
     val scalajsScripts = "1.0.0"
+    val scalajsReact = "1.0.0"
+    val diode = "1.1.2"
   }
 
   val jvmDependencies = Def.setting(Seq(
@@ -19,8 +21,10 @@ object Settings {
   ))
 
   val scalajsDependencies = Def.setting(Seq(
-    "com.github.japgolly.scalajs-react" %%% "core" % "1.0.0",
-    "com.github.japgolly.scalajs-react" %%% "extra" % "1.0.0"
+    "com.github.japgolly.scalajs-react" %%% "core" % versions.scalajsReact,
+    "com.github.japgolly.scalajs-react" %%% "extra" % versions.scalajsReact,
+    "io.suzaku" %%% "diode" % versions.diode,
+    "io.suzaku" %%% "diode-react" % versions.diode
   ))
 
 }
